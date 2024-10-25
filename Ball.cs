@@ -12,12 +12,14 @@ namespace Monogame_Sumative___Breakout
     {
         private Texture2D _ballTexture;
         private Rectangle _ballLocation;
+        private Rectangle _windowBounds;
         private Vector2 _ballSpeed;
 
-        public Ball(Texture2D texture, Rectangle location)
+        public Ball(Texture2D texture, Rectangle location, Rectangle window)
         {
             _ballTexture = texture;
             _ballLocation = location;
+            _windowBounds = window;
             _ballSpeed = Vector2.Zero;
         }
 
