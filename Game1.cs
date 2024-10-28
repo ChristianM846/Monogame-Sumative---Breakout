@@ -12,8 +12,6 @@ namespace Monogame_Sumative___Breakout
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Paddle paddle1;
-
         KeyboardState keyboardState;
         MouseState mouseState;
 
@@ -59,7 +57,7 @@ namespace Monogame_Sumative___Breakout
             window = new Rectangle(0,0, 700, 500);
             base.Initialize();
 
-            paddle1 = new Paddle(paddleTexture, new Rectangle(300, 400, 70, 10), window);
+            paddle = new Paddle(paddleTexture, new Rectangle(300, 400, 70, 10), window);
 
             for (int y = 0; y < 5; y++)
             {
@@ -95,7 +93,7 @@ namespace Monogame_Sumative___Breakout
             }
             else if (screen == Screen.Game)
             {
-                paddle1.Update(keyboardState);
+                paddle.Update(keyboardState);
             }
             else if (screen == Screen.Win)
             {
@@ -122,7 +120,7 @@ namespace Monogame_Sumative___Breakout
             }
             else if (screen == Screen.Game)
             {
-                paddle1.Draw(_spriteBatch);
+                paddle.Draw(_spriteBatch);
             }
             else if (screen == Screen.Win)
             {

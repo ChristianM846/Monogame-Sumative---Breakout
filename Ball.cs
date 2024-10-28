@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Monogame_Sumative___Breakout
 {
@@ -10,7 +11,7 @@ namespace Monogame_Sumative___Breakout
         private Rectangle _windowBounds;
         private Vector2 _ballSpeed;
 
-        public Ball(Texture2D texture, Rectangle location, Rectangle window)
+        public Ball(Texture2D texture, Rectangle location, Vector2 speed, Rectangle window)
         {
             _ballTexture = texture;
             _ballLocation = location;
@@ -18,7 +19,7 @@ namespace Monogame_Sumative___Breakout
             _ballSpeed = Vector2.Zero;
         }
 
-        public void Update()
+        public void Update(KeyboardState keybaordState)
         {
 
 
