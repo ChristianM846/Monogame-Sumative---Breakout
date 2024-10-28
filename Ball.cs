@@ -16,14 +16,23 @@ namespace Monogame_Sumative___Breakout
             _ballTexture = texture;
             _ballLocation = location;
             _windowBounds = window;
-            _ballSpeed = Vector2.Zero;
+            _ballSpeed = speed;
         }
 
-        public void Update(KeyboardState keybaordState)
+        public void Update(KeyboardState keyboardState)
         {
+            if (_ballSpeed == Vector2.Zero && keyboardState.IsKeyDown(Keys.Space))
+            {
+                _ballSpeed.X = 2f;
+                _ballSpeed.Y = 0f;
+            }
 
+            _ballLocation.Offset(_ballSpeed);
 
-
+            if (_ballLocation.X < 0 || _ballLocation.Right > _windowBounds.Right)
+            {
+                _ballSpeed.X *= -1;
+            }
 
 
 

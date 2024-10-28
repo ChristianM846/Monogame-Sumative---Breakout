@@ -58,6 +58,7 @@ namespace Monogame_Sumative___Breakout
             base.Initialize();
 
             paddle = new Paddle(paddleTexture, new Rectangle(300, 400, 70, 10), window);
+            ball = new Ball(ballTexture, new Rectangle(335, 350, 30, 30), new Vector2(0,0), window);
 
             for (int y = 0; y < 5; y++)
             {
@@ -75,8 +76,6 @@ namespace Monogame_Sumative___Breakout
             paddleTexture = Content.Load<Texture2D>("Images/paddle");
             ballTexture = Content.Load<Texture2D>("Images/circle");
             brickTexture = Content.Load<Texture2D>("Images/rectangle");
-
-
         }
 
         protected override void Update(GameTime gameTime)
@@ -94,6 +93,7 @@ namespace Monogame_Sumative___Breakout
             else if (screen == Screen.Game)
             {
                 paddle.Update(keyboardState);
+                ball.Update(keyboardState);
             }
             else if (screen == Screen.Win)
             {
@@ -121,6 +121,7 @@ namespace Monogame_Sumative___Breakout
             else if (screen == Screen.Game)
             {
                 paddle.Draw(_spriteBatch);
+                ball.Draw(_spriteBatch);
             }
             else if (screen == Screen.Win)
             {
