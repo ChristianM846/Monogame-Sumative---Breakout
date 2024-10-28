@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +24,37 @@ namespace Monogame_Sumative___Breakout
             _paddleSpeed = Vector2.Zero;
         }
 
+        public void Update(KeyboardState keyboardState)
+        {
+            _paddleSpeed = Vector2.Zero;
 
+            if (keyboardState.IsKeyDown(Keys.Left))
+            {
+                _paddleSpeed.X -= 3f;          
+            }
 
+            if (keyboardState.IsKeyDown(Keys.Right))
+            {
+                _paddleSpeed.X += 3f;            
+            }
 
+            _paddleLocation.Offset(_paddleSpeed);
 
+            if (!_windowBounds.Contains(_paddleLocation))
+            {
+                _paddleLocation.Offset(-_paddleSpeed);
+            }
+        }
 
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(_paddleTexture, _paddleLocation, Color.White);
+        }
+
+        public Rectangle PaddleRect
+        {
+            get { return _paddleLocation; }
+        }
 
     }
 }

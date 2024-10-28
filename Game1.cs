@@ -12,6 +12,8 @@ namespace Monogame_Sumative___Breakout
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        Paddle paddle1;
+
         KeyboardState keyboardState;
         MouseState mouseState;
 
@@ -57,11 +59,13 @@ namespace Monogame_Sumative___Breakout
             window = new Rectangle(0,0, 700, 500);
             base.Initialize();
 
+            paddle1 = new Paddle(paddleTexture, new Rectangle(300, 400, 70, 10), window);
+
             for (int y = 0; y < 5; y++)
             {
                 for (int x = 0; x < 5; x++)
                 {
-                    bricks.Add(new Brick(brickTexture, new Rectangle(70 * x, 50 * y, 70, 50), Color.Red));
+                    bricks.Add(new Brick(brickTexture, new Rectangle(70 * x, 50 * y, 70, 50), 1, Color.Red));
                 }
             }
         }
@@ -82,7 +86,27 @@ namespace Monogame_Sumative___Breakout
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            mouseState = Mouse.GetState();
+            keyboardState = Keyboard.GetState();
+
+            if (screen == Screen.Title)
+            {
+
+            }
+            else if (screen == Screen.Game)
+            {
+                paddle1.Update(keyboardState);
+            }
+            else if (screen == Screen.Win)
+            {
+
+            }
+            else if (screen == Screen.Lose)
+            {
+
+            }
+
+
 
             base.Update(gameTime);
         }
@@ -90,10 +114,27 @@ namespace Monogame_Sumative___Breakout
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
 
-            // TODO: Add your drawing code here
+            if (screen == Screen.Title)
+            {
 
+            }
+            else if (screen == Screen.Game)
+            {
+                paddle1.Draw(_spriteBatch);
+            }
+            else if (screen == Screen.Win)
+            {
+
+            }
+            else if (screen == Screen.Lose)
+            {
+
+            }
+
+            _spriteBatch.End();
             base.Draw(gameTime);
-        }
+        }      
     }
 }

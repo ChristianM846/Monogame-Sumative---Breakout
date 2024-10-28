@@ -1,10 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Monogame_Sumative___Breakout
 {
@@ -23,8 +18,31 @@ namespace Monogame_Sumative___Breakout
             _ballSpeed = Vector2.Zero;
         }
 
+        public void Update()
+        {
 
 
+
+
+
+
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(_ballTexture, _ballLocation, Color.White);
+        }
+
+        public Rectangle BallRect
+        {
+            get { return _ballLocation; }
+        }
+
+        public Vector2 BallSpeed
+        {
+            get { return _ballSpeed; }
+            set { _ballSpeed = value; }
+        }
 
     }
 }
