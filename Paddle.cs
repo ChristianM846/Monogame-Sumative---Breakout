@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Monogame_Sumative___Breakout
 {
@@ -16,7 +11,7 @@ namespace Monogame_Sumative___Breakout
         private Rectangle _windowBounds;
         private Vector2 _paddleSpeed;
 
-        public Paddle (Texture2D texture, Rectangle locaton, Rectangle window)
+        public Paddle(Texture2D texture, Rectangle locaton, Rectangle window)
         {
             _paddleTexture = texture;
             _paddleLocation = locaton;
@@ -30,12 +25,12 @@ namespace Monogame_Sumative___Breakout
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
-                _paddleSpeed.X -= 3f;          
+                _paddleSpeed.X -= 3f;
             }
 
             if (keyboardState.IsKeyDown(Keys.Right))
             {
-                _paddleSpeed.X += 3f;            
+                _paddleSpeed.X += 3f;
             }
 
             _paddleLocation.Offset(_paddleSpeed);

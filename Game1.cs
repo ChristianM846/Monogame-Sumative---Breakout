@@ -22,6 +22,7 @@ namespace Monogame_Sumative___Breakout
         Texture2D brickTexture;
 
         Rectangle window;
+        Rectangle ballSpawn;
 
         Paddle paddle;
         Ball ball;
@@ -53,12 +54,15 @@ namespace Monogame_Sumative___Breakout
         {
             screen = Screen.Game;
             generator = new Random();
+
             bricks = new List<Brick>();
-            window = new Rectangle(0,0, 700, 500);
+            window = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            ballSpawn = new Rectangle(335, 350, 30, 30);
+
             base.Initialize();
 
             paddle = new Paddle(paddleTexture, new Rectangle(300, 400, 70, 10), window);
-            ball = new Ball(ballTexture, new Rectangle(335, 350, 30, 30), new Vector2(0,0), window);
+            ball = new Ball(ballTexture, ballSpawn, new Vector2(0, 0), window, ballSpawn, 1);
 
             for (int y = 0; y < 5; y++)
             {
@@ -93,7 +97,13 @@ namespace Monogame_Sumative___Breakout
             else if (screen == Screen.Game)
             {
                 paddle.Update(keyboardState);
-                ball.Update(keyboardState);
+                ball.Update(keyboardState, paddle);
+
+                if (ball.Lives <= 0)
+                {
+                    screen = Screen.Lose;
+                }
+
             }
             else if (screen == Screen.Win)
             {
@@ -134,6 +144,6 @@ namespace Monogame_Sumative___Breakout
 
             _spriteBatch.End();
             base.Draw(gameTime);
-        }      
+        }
     }
 }
