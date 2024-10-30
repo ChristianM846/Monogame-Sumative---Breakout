@@ -123,6 +123,20 @@ namespace Monogame_Sumative___Breakout
                 paddle.Update(keyboardState);
                 ball.Update(keyboardState, paddle);
 
+                for (int i = 0; i < bricks.Count; i++)
+                {
+                    if (ball.BallRect.Top <= bricks[i].BrickRect.Bottom)
+                    {
+                        ball.BallSpeedY *= -1;
+                        bricks.RemoveAt(i);
+                        i--;
+                        //
+                        //
+                        //
+                    }
+                }
+
+
                 if (ball.Lives <= 0)
                 {
                     screen = Screen.Lose;

@@ -56,7 +56,7 @@ namespace Monogame_Sumative___Breakout
                 _ballLocation.Y -= (int)paddle.PaddleRect.Height;
                 _bounces++;
 
-                if (_bounces % 1 == 0)
+                if (_bounces % 10 == 0)
                 {
                     _speedIncrease = generator.Next(1, 3);
 
@@ -105,6 +105,13 @@ namespace Monogame_Sumative___Breakout
             get { return Math.Abs(_ballSpeed.X); }
             set { _ballSpeed.X = value; }
         }
+
+        public float BallSpeedY
+        {
+            get { return _ballSpeed.Y; }
+            set { _ballSpeed.Y = value; }
+        }
+
 
         public int Lives
         {
