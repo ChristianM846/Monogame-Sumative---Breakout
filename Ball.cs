@@ -1,17 +1,21 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Monogame_Sumative___Breakout
 {
     public class Ball
     {
+        private Random generator = new Random();
         private Texture2D _ballTexture;
         private Rectangle _ballLocation;
         private Rectangle _ballSpawn;
         private Rectangle _windowBounds;
         private Vector2 _ballSpeed;
         private int _lives;
+        private int _bounces;
+        private int _speedIncrease;
 
         public Ball(Texture2D texture, Rectangle location, Vector2 speed, Rectangle window, Rectangle spawn, int lives)
         {
@@ -21,14 +25,15 @@ namespace Monogame_Sumative___Breakout
             _windowBounds = window;
             _ballSpeed = speed;
             _lives = lives;
+            _bounces = 0;
         }
 
         public void Update(KeyboardState keyboardState, Paddle paddle)
         {
             if (_ballSpeed == Vector2.Zero && keyboardState.IsKeyDown(Keys.Space))
             {
-                _ballSpeed.X = 2f;
-                _ballSpeed.Y = -3f;
+                _ballSpeed.X = generator.Next(2, 5);
+                _ballSpeed.Y = generator.Next(-4, -1);
             }
 
             _ballLocation.X += (int)_ballSpeed.X;
@@ -49,6 +54,30 @@ namespace Monogame_Sumative___Breakout
             {
                 _ballSpeed.Y *= -1;
                 _ballLocation.Y -= (int)paddle.PaddleRect.Height;
+                _bounces++;
+
+                if (_bounces % 1 == 0)
+                {
+                    _speedIncrease = generator.Next(1, 3);
+
+                    if (_speedIncrease == 1)
+                    {
+                        _ballSpeed.Y -= 1;
+                    }
+                    else if (_speedIncrease == 2)
+                    {
+                        if (_ballSpeed.X > 0)
+                        {
+                            _ballSpeed.X += 1;
+                        }
+                        else if (_ballSpeed.X < 0)
+                        {
+                            _ballSpeed.X -= 1;
+                        }
+                    }
+
+                }
+
             }
 
             if (_ballLocation.Bottom >= _windowBounds.Bottom)
@@ -57,6 +86,7 @@ namespace Monogame_Sumative___Breakout
                 _ballSpeed.Y = 0;
                 _ballLocation = _ballSpawn;
                 _lives--;
+                _bounces = 0;
             }
         }
 
@@ -70,10 +100,10 @@ namespace Monogame_Sumative___Breakout
             get { return _ballLocation; }
         }
 
-        public Vector2 BallSpeed
+        public float BallSpeedX
         {
-            get { return _ballSpeed; }
-            set { _ballSpeed = value; }
+            get { return Math.Abs(_ballSpeed.X); }
+            set { _ballSpeed.X = value; }
         }
 
         public int Lives

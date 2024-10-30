@@ -18,6 +18,17 @@ namespace Monogame_Sumative___Breakout
             _brickColor = color;
         }
 
+        public void Update()
+        {
+
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(_brickTexture, _brickLocation, _brickColor);
+        }
+
+
 
 
     }

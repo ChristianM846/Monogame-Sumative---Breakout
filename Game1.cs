@@ -24,6 +24,8 @@ namespace Monogame_Sumative___Breakout
         Rectangle window;
         Rectangle ballSpawn;
 
+        Color brickColor;
+
         Paddle paddle;
         Ball ball;
         List<Brick> bricks;
@@ -62,13 +64,35 @@ namespace Monogame_Sumative___Breakout
             base.Initialize();
 
             paddle = new Paddle(paddleTexture, new Rectangle(300, 400, 70, 10), window);
-            ball = new Ball(ballTexture, ballSpawn, new Vector2(0, 0), window, ballSpawn, 1);
+            ball = new Ball(ballTexture, ballSpawn, new Vector2(0, 0), window, ballSpawn, 2);
 
-            for (int y = 0; y < 5; y++)
+            for (int y = 0; y < 6; y++)
             {
-                for (int x = 0; x < 5; x++)
+                switch (y)
                 {
-                    bricks.Add(new Brick(brickTexture, new Rectangle(70 * x, 50 * y, 70, 50), 1, Color.Red));
+                    case 0:
+                        brickColor = Color.Red;
+                        break;
+                    case 1:
+                        brickColor = Color.Orange;
+                        break;
+                    case 2:
+                        brickColor = Color.Yellow;
+                        break;
+                    case 3:
+                        brickColor = Color.Green;
+                        break;
+                    case 4:
+                        brickColor = Color.Blue;
+                        break;
+                    case 5:
+                        brickColor = Color.Purple;
+                        break;
+                }
+
+                for (int x = 0; x < 10; x++)
+                {
+                    bricks.Add(new Brick(brickTexture, new Rectangle(70 * x + 1, 30 * y, 68, 30), 1, brickColor));
                 }
             }
         }
@@ -104,6 +128,16 @@ namespace Monogame_Sumative___Breakout
                     screen = Screen.Lose;
                 }
 
+                if (ball.BallSpeedX - 2 > paddle.PaddleSpeedX)
+                {
+                    paddle.PaddleSpeedX = (int)ball.BallSpeedX - 2;
+                }
+
+                if (paddle.PaddleSpeedX > ball.BallSpeedX)
+                {
+                    paddle.PaddleSpeedX = 3;
+                }
+
             }
             else if (screen == Screen.Win)
             {
@@ -132,6 +166,12 @@ namespace Monogame_Sumative___Breakout
             {
                 paddle.Draw(_spriteBatch);
                 ball.Draw(_spriteBatch);
+
+                foreach (Brick brick in bricks)
+                {
+                    brick.Draw(_spriteBatch);
+                }
+
             }
             else if (screen == Screen.Win)
             {

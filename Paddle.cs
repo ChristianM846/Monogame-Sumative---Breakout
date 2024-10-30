@@ -10,6 +10,7 @@ namespace Monogame_Sumative___Breakout
         private Rectangle _paddleLocation;
         private Rectangle _windowBounds;
         private Vector2 _paddleSpeed;
+        private int _speedMod;
 
         public Paddle(Texture2D texture, Rectangle locaton, Rectangle window)
         {
@@ -17,6 +18,7 @@ namespace Monogame_Sumative___Breakout
             _paddleLocation = locaton;
             _windowBounds = window;
             _paddleSpeed = Vector2.Zero;
+            _speedMod = 3;
         }
 
         public void Update(KeyboardState keyboardState)
@@ -25,12 +27,12 @@ namespace Monogame_Sumative___Breakout
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
-                _paddleSpeed.X -= 3f;
+                _paddleSpeed.X -= _speedMod;
             }
 
             if (keyboardState.IsKeyDown(Keys.Right))
             {
-                _paddleSpeed.X += 3f;
+                _paddleSpeed.X += _speedMod;
             }
 
             _paddleLocation.Offset(_paddleSpeed);
@@ -51,5 +53,10 @@ namespace Monogame_Sumative___Breakout
             get { return _paddleLocation; }
         }
 
+        public int PaddleSpeedX
+        {
+            get { return _speedMod; }
+            set { _speedMod = value; }
+        }
     }
 }
