@@ -64,7 +64,7 @@ namespace Monogame_Sumative___Breakout
             base.Initialize();
 
             paddle = new Paddle(paddleTexture, new Rectangle(300, 400, 70, 10), window);
-            ball = new Ball(ballTexture, ballSpawn, new Vector2(0, 0), window, ballSpawn, 2);
+            ball = new Ball(ballTexture, ballSpawn, new Vector2(0, 0), window, ballSpawn, 5);
 
             for (int y = 0; y < 6; y++)
             {
@@ -125,14 +125,30 @@ namespace Monogame_Sumative___Breakout
 
                 for (int i = 0; i < bricks.Count; i++)
                 {
-                    if (ball.BallRect.Top <= bricks[i].BrickRect.Bottom)
+                    if (ball.BallSpeedY < 0 && ball.BallRect.Top <= bricks[i].BrickRect.Bottom && ball.BallRect.Top >= bricks[i].BrickRect.Bottom - 10 && ball.BallRect.Left <= bricks[i].BrickRect.Right && ball.BallRect.Right >= bricks[i].BrickRect.Left)
                     {
                         ball.BallSpeedY *= -1;
-                        bricks.RemoveAt(i);
-                        i--;
-                        //
-                        //
-                        //
+                        ball.BallRectY += (int)ball.BallSpeedY;
+                        bricks[i].BrickHealth--;
+
+                        if (bricks[i].BrickHealth == 0)
+                        {
+                            bricks.RemoveAt(i);
+                            i--;
+                        }
+                    }
+
+                    if (ball.BallSpeedY > 0 && ball.BallRect.Bottom >= bricks[i].BrickRect.Top && ball.BallRect.Bottom <= bricks[i].BrickRect.Top + 10 && ball.BallRect.Left <= bricks[i].BrickRect.Right && ball.BallRect.Right >= bricks[i].BrickRect.Left)
+                    {
+                        ball.BallSpeedY *= -1;
+                        ball.BallRectY += (int)ball.BallSpeedY;
+                        bricks[i].BrickHealth--;
+
+                        if (bricks[i].BrickHealth == 0)
+                        {
+                            bricks.RemoveAt(i);
+                            i--;
+                        }
                     }
                 }
 
@@ -142,14 +158,14 @@ namespace Monogame_Sumative___Breakout
                     screen = Screen.Lose;
                 }
 
-                if (ball.BallSpeedX - 2 > paddle.PaddleSpeedX)
+                if (ball.BallSpeedX - 1 > paddle.SpeedMod)
                 {
-                    paddle.PaddleSpeedX = (int)ball.BallSpeedX - 2;
+                    paddle.SpeedMod = (int)ball.BallSpeedX - 1;
                 }
 
-                if (paddle.PaddleSpeedX > ball.BallSpeedX)
+                if (paddle.SpeedMod > ball.BallSpeedX)
                 {
-                    paddle.PaddleSpeedX = 3;
+                    paddle.SpeedMod = 3;
                 }
 
             }

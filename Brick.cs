@@ -27,5 +27,12 @@ namespace Monogame_Sumative___Breakout
         {
             get { return _brickLocation; }
         }
+
+        public int BrickHealth
+        { 
+            get { return _brickHealth; } 
+            set { _brickHealth = value; }
+        }
+
     }
 }

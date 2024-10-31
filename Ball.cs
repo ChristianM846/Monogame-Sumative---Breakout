@@ -32,7 +32,7 @@ namespace Monogame_Sumative___Breakout
         {
             if (_ballSpeed == Vector2.Zero && keyboardState.IsKeyDown(Keys.Space))
             {
-                _ballSpeed.X = generator.Next(2, 5);
+                _ballSpeed.X = generator.Next(-2, 3);
                 _ballSpeed.Y = generator.Next(-4, -1);
             }
 
@@ -56,6 +56,41 @@ namespace Monogame_Sumative___Breakout
                 _ballLocation.Y -= (int)paddle.PaddleRect.Height;
                 _bounces++;
 
+                if (_ballSpeed.X > 0)
+                {
+                    if (paddle.PaddleSpeedX > 0)
+                    {
+                        _ballSpeed.X += 1;
+                    }
+                    else if (paddle.PaddleSpeedX < 0)
+                    {
+                        _ballSpeed.X -= 1;
+                    }
+                }
+                else if (_ballSpeed.X < 0)
+                {
+                    if (paddle.PaddleSpeedX > 0)
+                    {
+                        _ballSpeed.X += 1;
+                    }
+                    else if (paddle.PaddleSpeedX < 0)
+                    {
+                        _ballSpeed.X -= 1;
+                    }
+                }
+                else if (_ballSpeed.X == 0)
+                {
+                    if (paddle.PaddleSpeedX > 0)
+                    {
+                        _ballSpeed.X += 1;
+                    }
+                    else if (paddle.PaddleSpeedX < 0)
+                    {
+                        _ballSpeed.X -= 1;
+                    }
+                }
+
+
                 if (_bounces % 10 == 0)
                 {
                     _speedIncrease = generator.Next(1, 3);
@@ -75,7 +110,6 @@ namespace Monogame_Sumative___Breakout
                             _ballSpeed.X -= 1;
                         }
                     }
-
                 }
 
             }
@@ -99,6 +133,19 @@ namespace Monogame_Sumative___Breakout
         {
             get { return _ballLocation; }
         }
+
+        public int BallRectX
+        {
+            get { return _ballLocation.X; }
+            set { _ballLocation.X = value; }
+        }
+
+        public int BallRectY
+        {
+            get { return _ballLocation.Y; }
+            set { _ballLocation.Y = value; }
+        }
+
 
         public float BallSpeedX
         {

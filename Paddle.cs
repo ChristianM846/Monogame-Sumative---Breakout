@@ -53,7 +53,13 @@ namespace Monogame_Sumative___Breakout
             get { return _paddleLocation; }
         }
 
-        public int PaddleSpeedX
+        public float PaddleSpeedX
+        {
+            get { return _paddleSpeed.X; }
+            set { _paddleSpeed.X = value; }
+        }
+
+        public int SpeedMod
         {
             get { return _speedMod; }
             set { _speedMod = value; }
