@@ -91,7 +91,7 @@ namespace Monogame_Sumative___Breakout
                 }
 
 
-                if (_bounces % 10 == 0)
+                if (_bounces % 5 == 0)
                 {
                     _speedIncrease = generator.Next(1, 3);
 

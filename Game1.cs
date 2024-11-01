@@ -130,9 +130,8 @@ namespace Monogame_Sumative___Breakout
                 for (int i = 0; i < bricks.Count; i++)
                 {
                     //upwards collision
-                    if (ball.BallSpeedY < 0 && ball.BallRect.Top <= bricks[i].BrickRect.Bottom && ball.BallRect.Top >= bricks[i].BrickRect.Bottom - 10 && ball.BallRect.Left <= bricks[i].BrickRect.Right && ball.BallRect.Right >= bricks[i].BrickRect.Left)
+                    if (ball.BallSpeedY < 0 && ball.BallRect.Top <= bricks[i].BrickRect.Bottom && ball.BallRect.Top >= bricks[i].BrickRect.Bottom + (ball.BallSpeedY - 1) && ball.BallRect.Left <= bricks[i].BrickRect.Right && ball.BallRect.Right >= bricks[i].BrickRect.Left)
                     {
-                        bounced = true;
                         ball.BallSpeedY *= -1;
                         ball.BallRectY += (int)ball.BallSpeedY;
                         bricks[i].BrickHealth--;
@@ -143,11 +142,9 @@ namespace Monogame_Sumative___Breakout
                             i--;
                         }
                     }
-
                     //downwards collision
-                    if (ball.BallSpeedY > 0 && ball.BallRect.Bottom >= bricks[i].BrickRect.Top && ball.BallRect.Bottom <= bricks[i].BrickRect.Top + 10 && ball.BallRect.Left <= bricks[i].BrickRect.Right && ball.BallRect.Right >= bricks[i].BrickRect.Left)
+                    else if (ball.BallSpeedY > 0 && ball.BallRect.Bottom >= bricks[i].BrickRect.Top && ball.BallRect.Bottom <= bricks[i].BrickRect.Top + (ball.BallSpeedY + 1) && ball.BallRect.Left <= bricks[i].BrickRect.Right && ball.BallRect.Right >= bricks[i].BrickRect.Left)
                     {
-                        bounced = true;
                         ball.BallSpeedY *= -1;
                         ball.BallRectY += (int)ball.BallSpeedY;
                         bricks[i].BrickHealth--;
@@ -158,9 +155,8 @@ namespace Monogame_Sumative___Breakout
                             i--;
                         }
                     }
-
                     //rightwards collision
-                    if (ball.BallSpeedX > 0 && ball.BallRect.Right >= bricks[i].BrickRect.Left && ball.BallRect.Right >= bricks[i].BrickRect.Left + ball.BallSpeedX && ball.BallRect.Top <= bricks[i].BrickRect.Bottom && ball.BallRect.Bottom >= bricks[i].BrickRect.Top && !bounced)
+                    else if (ball.BallSpeedX > 0 && ball.BallRect.Right >= bricks[i].BrickRect.Left && ball.BallRect.Right <= bricks[i].BrickRect.Left + ball.BallSpeedX && ball.BallRect.Top <= bricks[i].BrickRect.Bottom && ball.BallRect.Bottom >= bricks[i].BrickRect.Top)
                     {
                         ball.BallSpeedX *= -1;
                         ball.BallRectX += (int)ball.BallSpeedX;
