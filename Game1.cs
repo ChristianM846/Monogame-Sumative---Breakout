@@ -12,6 +12,8 @@ namespace Monogame_Sumative___Breakout
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        bool bounced;
+
         KeyboardState keyboardState;
         MouseState mouseState;
 
@@ -65,6 +67,7 @@ namespace Monogame_Sumative___Breakout
 
             paddle = new Paddle(paddleTexture, new Rectangle(300, 400, 70, 10), window);
             ball = new Ball(ballTexture, ballSpawn, new Vector2(0, 0), window, ballSpawn, 5);
+
 
             for (int y = 0; y < 6; y++)
             {
@@ -120,13 +123,16 @@ namespace Monogame_Sumative___Breakout
             }
             else if (screen == Screen.Game)
             {
+                bounced = false;
                 paddle.Update(keyboardState);
                 ball.Update(keyboardState, paddle);
 
                 for (int i = 0; i < bricks.Count; i++)
                 {
+                    //upwards collision
                     if (ball.BallSpeedY < 0 && ball.BallRect.Top <= bricks[i].BrickRect.Bottom && ball.BallRect.Top >= bricks[i].BrickRect.Bottom - 10 && ball.BallRect.Left <= bricks[i].BrickRect.Right && ball.BallRect.Right >= bricks[i].BrickRect.Left)
                     {
+                        bounced = true;
                         ball.BallSpeedY *= -1;
                         ball.BallRectY += (int)ball.BallSpeedY;
                         bricks[i].BrickHealth--;
@@ -138,8 +144,10 @@ namespace Monogame_Sumative___Breakout
                         }
                     }
 
+                    //downwards collision
                     if (ball.BallSpeedY > 0 && ball.BallRect.Bottom >= bricks[i].BrickRect.Top && ball.BallRect.Bottom <= bricks[i].BrickRect.Top + 10 && ball.BallRect.Left <= bricks[i].BrickRect.Right && ball.BallRect.Right >= bricks[i].BrickRect.Left)
                     {
+                        bounced = true;
                         ball.BallSpeedY *= -1;
                         ball.BallRectY += (int)ball.BallSpeedY;
                         bricks[i].BrickHealth--;
@@ -150,6 +158,21 @@ namespace Monogame_Sumative___Breakout
                             i--;
                         }
                     }
+
+                    //rightwards collision
+                    if (ball.BallSpeedX > 0 && ball.BallRect.Right >= bricks[i].BrickRect.Left && ball.BallRect.Right >= bricks[i].BrickRect.Left + ball.BallSpeedX && ball.BallRect.Top <= bricks[i].BrickRect.Bottom && ball.BallRect.Bottom >= bricks[i].BrickRect.Top && !bounced)
+                    {
+                        ball.BallSpeedX *= -1;
+                        ball.BallRectX += (int)ball.BallSpeedX;
+                        bricks[i].BrickHealth--;
+
+                        if (bricks[i].BrickHealth == 0)
+                        {
+                            bricks.RemoveAt(i);
+                            i--;
+                        }
+                    }
+
                 }
 
 
@@ -158,12 +181,12 @@ namespace Monogame_Sumative___Breakout
                     screen = Screen.Lose;
                 }
 
-                if (ball.BallSpeedX - 1 > paddle.SpeedMod)
+                if (ball.BallSpeedMod - 1 > paddle.SpeedMod)
                 {
-                    paddle.SpeedMod = (int)ball.BallSpeedX - 1;
+                    paddle.SpeedMod = (int)ball.BallSpeedMod - 1;
                 }
 
-                if (paddle.SpeedMod > ball.BallSpeedX)
+                if (paddle.SpeedMod > ball.BallSpeedMod)
                 {
                     paddle.SpeedMod = 3;
                 }

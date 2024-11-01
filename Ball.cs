@@ -132,6 +132,7 @@ namespace Monogame_Sumative___Breakout
         public Rectangle BallRect
         {
             get { return _ballLocation; }
+            set { _ballLocation = value; }
         }
 
         public int BallRectX
@@ -146,10 +147,15 @@ namespace Monogame_Sumative___Breakout
             set { _ballLocation.Y = value; }
         }
 
+        public float BallSpeedMod
+        {
+            get { return Math.Abs(_ballSpeed.X); }
+            set { _ballSpeed.X = value; }
+        }
 
         public float BallSpeedX
         {
-            get { return Math.Abs(_ballSpeed.X); }
+            get { return _ballSpeed.X; }
             set { _ballSpeed.X = value; }
         }
 
