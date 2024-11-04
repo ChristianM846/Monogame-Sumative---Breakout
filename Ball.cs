@@ -33,7 +33,7 @@ namespace Monogame_Sumative___Breakout
             if (_ballSpeed == Vector2.Zero && keyboardState.IsKeyDown(Keys.Space))
             {
                 _ballSpeed.X = generator.Next(-2, 3);
-                _ballSpeed.Y = generator.Next(-4, -1);
+                _ballSpeed.Y = generator.Next(-4, -2);
             }
 
             _ballLocation.X += (int)_ballSpeed.X;
@@ -164,7 +164,6 @@ namespace Monogame_Sumative___Breakout
             get { return _ballSpeed.Y; }
             set { _ballSpeed.Y = value; }
         }
-
 
         public int Lives
         {

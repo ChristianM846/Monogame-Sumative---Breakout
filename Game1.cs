@@ -168,21 +168,37 @@ namespace Monogame_Sumative___Breakout
                             i--;
                         }
                     }
+                    //leftward collision
+                    else if (ball.BallSpeedX < 0 && ball.BallRect.Left <= bricks[i].BrickRect.Right && ball.BallRect.Left >= bricks[i].BrickRect.Right + ball.BallSpeedX && ball.BallRect.Top <= bricks[i].BrickRect.Bottom && ball.BallRect.Bottom >= bricks[i].BrickRect.Top)
+                    {
+                        ball.BallSpeedX *= -1;
+                        ball.BallRectX += (int)ball.BallSpeedX;
+                        bricks[i].BrickHealth--;
 
+                        if (bricks[i].BrickHealth == 0)
+                        {
+                            bricks.RemoveAt(i);
+                            i--;
+                        }
+                    }
                 }
 
+                if (bricks.Count == 0)
+                {
+                    screen = Screen.Win;
+                }
 
                 if (ball.Lives <= 0)
                 {
                     screen = Screen.Lose;
                 }
 
-                if (ball.BallSpeedMod - 1 > paddle.SpeedMod)
+                if (ball.BallSpeedMod  >= paddle.SpeedMod)
                 {
-                    paddle.SpeedMod = (int)ball.BallSpeedMod - 1;
+                    paddle.SpeedMod = (int)ball.BallSpeedMod + 1;
                 }
 
-                if (paddle.SpeedMod > ball.BallSpeedMod)
+                if (paddle.SpeedMod - 1 > ball.BallSpeedMod)
                 {
                     paddle.SpeedMod = 3;
                 }
