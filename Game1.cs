@@ -28,6 +28,10 @@ namespace Monogame_Sumative___Breakout
 
         Color brickColor;
 
+        SpriteFont titleFont;
+        SpriteFont instructionFont;
+        SpriteFont statFont;
+
         Paddle paddle;
         Ball ball;
         List<Brick> bricks;
@@ -56,7 +60,7 @@ namespace Monogame_Sumative___Breakout
 
         protected override void Initialize()
         {
-            screen = Screen.Game;
+            screen = Screen.Title;
             generator = new Random();
 
             bricks = new List<Brick>();
@@ -66,7 +70,7 @@ namespace Monogame_Sumative___Breakout
             base.Initialize();
 
             paddle = new Paddle(paddleTexture, new Rectangle(300, 400, 70, 10), window);
-            ball = new Ball(ballTexture, ballSpawn, new Vector2(0, 0), window, ballSpawn, 5);
+            ball = new Ball(ballTexture, ballSpawn, new Vector2(0, 0), window, ballSpawn, 3);
 
 
             for (int y = 0; y < 6; y++)
@@ -107,6 +111,9 @@ namespace Monogame_Sumative___Breakout
             paddleTexture = Content.Load<Texture2D>("Images/paddle");
             ballTexture = Content.Load<Texture2D>("Images/circle");
             brickTexture = Content.Load<Texture2D>("Images/rectangle");
+            titleFont = Content.Load<SpriteFont>("Fonts/Titlefont");
+            instructionFont = Content.Load<SpriteFont>("Fonts/Instructionfont");
+            statFont = Content.Load<SpriteFont>("Fonts/Statfont");
         }
 
         protected override void Update(GameTime gameTime)
@@ -119,7 +126,10 @@ namespace Monogame_Sumative___Breakout
 
             if (screen == Screen.Title)
             {
-
+                if (keyboardState.IsKeyDown(Keys.Enter))
+                {
+                    screen = Screen.Game;
+                }
             }
             else if (screen == Screen.Game)
             {
@@ -225,7 +235,9 @@ namespace Monogame_Sumative___Breakout
 
             if (screen == Screen.Title)
             {
-
+                _spriteBatch.DrawString(titleFont, "Breakout", new Vector2(100, 100), Color.Black);
+                _spriteBatch.DrawString(titleFont, "A Bad Remake", new Vector2(225, 200), Color.Black);
+                _spriteBatch.DrawString(instructionFont, "Press ENTER to begin:", new Vector2(220, 400), Color.Black);
             }
             else if (screen == Screen.Game)
             {
@@ -236,6 +248,11 @@ namespace Monogame_Sumative___Breakout
                 {
                     brick.Draw(_spriteBatch);
                 }
+
+                _spriteBatch.DrawString(instructionFont, "Press Space to launch", new Vector2(225, 410), Color.Black);
+                _spriteBatch.DrawString(instructionFont, "Use arrow keys to move", new Vector2(210, 460), Color.Black);
+                _spriteBatch.DrawString(statFont, $"Bricks: {bricks.Count}", new Vector2(25, 450), Color.Black);
+                _spriteBatch.DrawString(statFont, $"Lives: {ball.Lives}", new Vector2(600, 450), Color.Black);
 
             }
             else if (screen == Screen.Win)
