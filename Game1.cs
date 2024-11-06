@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -22,9 +23,15 @@ namespace Monogame_Sumative___Breakout
         Texture2D paddleTexture;
         Texture2D ballTexture;
         Texture2D brickTexture;
+        Texture2D winScreenTexture;
+        Texture2D loseFaceTexture;
 
         Rectangle window;
         Rectangle ballSpawn;
+        Rectangle loseFaceRect;
+
+        SoundEffect yippeeSound;
+        SoundEffect sadViolinSound;
 
         Color brickColor;
 
@@ -66,6 +73,7 @@ namespace Monogame_Sumative___Breakout
             bricks = new List<Brick>();
             window = new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
             ballSpawn = new Rectangle(335, 350, 30, 30);
+            loseFaceRect = new Rectangle(226, 100, 247, 244);
 
             base.Initialize();
 
@@ -111,9 +119,13 @@ namespace Monogame_Sumative___Breakout
             paddleTexture = Content.Load<Texture2D>("Images/paddle");
             ballTexture = Content.Load<Texture2D>("Images/circle");
             brickTexture = Content.Load<Texture2D>("Images/rectangle");
+            winScreenTexture = Content.Load<Texture2D>("Images/Winscreen");
+            loseFaceTexture = Content.Load<Texture2D>("Images/Loseface");
             titleFont = Content.Load<SpriteFont>("Fonts/Titlefont");
             instructionFont = Content.Load<SpriteFont>("Fonts/Instructionfont");
             statFont = Content.Load<SpriteFont>("Fonts/Statfont");
+            yippeeSound = Content.Load<SoundEffect>("Sounds/Yippee");
+            sadViolinSound = Content.Load<SoundEffect>("Sounds/SadHampsterViolin");
         }
 
         protected override void Update(GameTime gameTime)
@@ -196,11 +208,13 @@ namespace Monogame_Sumative___Breakout
                 if (bricks.Count == 0)
                 {
                     screen = Screen.Win;
+                    yippeeSound.Play();
                 }
 
                 if (ball.Lives <= 0)
                 {
                     screen = Screen.Lose;
+                    sadViolinSound.Play();
                 }
 
                 if (ball.BallSpeedMod  >= paddle.SpeedMod)
@@ -216,11 +230,17 @@ namespace Monogame_Sumative___Breakout
             }
             else if (screen == Screen.Win)
             {
-
+                if (keyboardState.IsKeyDown(Keys.Enter))
+                {
+                    this.Exit();
+                }
             }
             else if (screen == Screen.Lose)
             {
-
+                if (keyboardState.IsKeyDown(Keys.Enter))
+                {
+                    this.Exit();
+                }
             }
 
 
@@ -257,11 +277,13 @@ namespace Monogame_Sumative___Breakout
             }
             else if (screen == Screen.Win)
             {
-
+                _spriteBatch.Draw(winScreenTexture, window, Color.White);
+                _spriteBatch.DrawString(instructionFont, "Thanks for playing! Press ENTER to close.", new Vector2(100, 450), Color.Black);
             }
             else if (screen == Screen.Lose)
             {
-
+                _spriteBatch.Draw(loseFaceTexture, loseFaceRect, Color.White);
+                _spriteBatch.DrawString(instructionFont, "You Lose! Press ENTER to close.", new Vector2(150, 450), Color.Black);
             }
 
             _spriteBatch.End();
